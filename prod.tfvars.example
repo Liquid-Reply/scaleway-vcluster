@@ -1,0 +1,31 @@
+# Production Environment Configuration Template
+# Copy this file to prod.tfvars and customize as needed
+
+cluster_name = "k8s-prod"
+region       = "fr-par"
+zone         = "fr-par-1"
+
+# Kubernetes Configuration
+k8s_version = "1.32"
+cni         = "cilium"
+
+# Node Pool Configuration (production-grade)
+node_type  = "GP1-S"  # or GP1-M, GP1-L for larger workloads
+node_count = 3
+min_nodes  = 3
+max_nodes  = 10
+
+# Features
+autoscaling_enabled = true
+autohealing_enabled = true
+
+# Safety setting - keep resources on cluster deletion
+# Set to true only if you want to auto-delete PVs/LBs on cluster deletion
+delete_additional_resources = false
+
+# Tags
+tags = ["environment:prod", "managed-by:terraform", "team:platform"]
+
+# Optional: Custom names
+# private_network_name = "k8s-prod-network"
+# pool_name = "production-pool"
