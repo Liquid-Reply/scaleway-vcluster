@@ -76,6 +76,21 @@ output "wildcard_dns" {
   value       = scaleway_k8s_cluster.main.wildcard_dns
 }
 
+output "gpu_pool_id" {
+  description = "The ID of the GPU node pool (null if gpu_pool_enabled = false)"
+  value       = length(scaleway_k8s_pool.gpu) > 0 ? scaleway_k8s_pool.gpu[0].id : null
+}
+
+output "gpu_pool_status" {
+  description = "The status of the GPU node pool (null if gpu_pool_enabled = false)"
+  value       = length(scaleway_k8s_pool.gpu) > 0 ? scaleway_k8s_pool.gpu[0].status : null
+}
+
+output "gpu_pool_current_size" {
+  description = "Current number of GPU nodes (null if gpu_pool_enabled = false)"
+  value       = length(scaleway_k8s_pool.gpu) > 0 ? scaleway_k8s_pool.gpu[0].current_size : null
+}
+
 # VCluster Fleet Outputs
 
 output "vclusters_deployed" {

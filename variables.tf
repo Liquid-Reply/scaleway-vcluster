@@ -124,3 +124,53 @@ variable "project_id" {
   type        = string
   description = "Your project ID."
 }
+
+# GPU Node Pool Variables
+
+variable "gpu_pool_enabled" {
+  description = "Enable a dedicated GPU node pool"
+  type        = bool
+  default     = false
+}
+
+variable "gpu_pool_name" {
+  description = "Name for the GPU node pool"
+  type        = string
+  default     = "gpu-pool"
+}
+
+variable "gpu_node_type" {
+  description = "GPU instance type (e.g. L4-1-24G, H100-1-80G)"
+  type        = string
+  default     = "L4-1-24G"
+}
+
+variable "gpu_node_count" {
+  description = "Initial number of GPU nodes"
+  type        = number
+  default     = 1
+}
+
+variable "gpu_min_nodes" {
+  description = "Minimum GPU nodes (0 = scale to zero when idle)"
+  type        = number
+  default     = 0
+}
+
+variable "gpu_max_nodes" {
+  description = "Maximum GPU nodes for autoscaling"
+  type        = number
+  default     = 2
+}
+
+variable "gpu_autoscaling_enabled" {
+  description = "Enable autoscaling for the GPU node pool"
+  type        = bool
+  default     = true
+}
+
+variable "gpu_autohealing_enabled" {
+  description = "Enable autohealing for the GPU node pool"
+  type        = bool
+  default     = true
+}

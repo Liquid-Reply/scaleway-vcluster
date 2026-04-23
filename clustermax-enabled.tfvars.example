@@ -22,6 +22,17 @@ max_nodes           = 10
 autoscaling_enabled = true
 autohealing_enabled = true
 
+# GPU Node Pool
+# Available types in fr-par-1: L4-1-24G (NVIDIA L4 24GB), H100-1-80G (NVIDIA H100 80GB)
+# Scaleway auto-installs the NVIDIA GPU operator — no manual setup needed.
+gpu_pool_enabled        = true
+gpu_node_type           = "L4-1-24G"
+gpu_node_count          = 1
+gpu_min_nodes           = 0
+gpu_max_nodes           = 5
+gpu_autoscaling_enabled = true
+gpu_autohealing_enabled = true
+
 # VCluster Fleet — Per-Tenant Multi-Tenancy (ClusterMAX requirement)
 # Add one entry per team/tenant. Each gets an isolated virtual K8s cluster.
 vclusters = {

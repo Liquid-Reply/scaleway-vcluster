@@ -21,6 +21,12 @@ max_nodes  = 10
 autoscaling_enabled = true
 autohealing_enabled = true
 
+# GPU Node Pool (optional)
+gpu_pool_enabled = false
+# gpu_node_type  = "L4-1-24G"  # or H100-1-80G
+# gpu_min_nodes  = 0
+# gpu_max_nodes  = 5
+
 # Safety setting - keep resources on cluster deletion
 # Set to true only if you want to auto-delete PVs/LBs on cluster deletion
 delete_additional_resources = false
