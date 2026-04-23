@@ -21,7 +21,7 @@ resource "scaleway_k8s_cluster" "main" {
     scale_down_delay_after_add      = "10m"
     scale_down_unneeded_time        = "10m"
     estimator                       = "binpacking"
-    expander                        = "random"
+    expander                        = "least-waste"
     ignore_daemonsets_utilization   = false
     balance_similar_node_groups     = true
     expendable_pods_priority_cutoff = -10

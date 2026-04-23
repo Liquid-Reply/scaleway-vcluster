@@ -1,6 +1,8 @@
 # Production Environment Configuration Template
 # Copy this file to prod.tfvars and customize as needed
 
+project_id   = "your-project-id"
+
 cluster_name = "k8s-prod"
 region       = "fr-par"
 zone         = "fr-par-1"
