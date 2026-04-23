@@ -1,5 +1,4 @@
 # ClusterMAX-Aligned Configuration Example
-# This configuration enables all ClusterMAX Platinum-tier features
 # Copy this file and customize for your environment:
 #   cp clustermax-enabled.tfvars.example clustermax.tfvars
 #   vim clustermax.tfvars
@@ -13,9 +12,9 @@ cluster_name = "my-ai-cluster"
 region       = "fr-par"
 zone         = "fr-par-1"       # L4 and H100 GPUs available here
 k8s_version  = "1.34"
-cni          = "cilium"         # Required for advanced networking
+cni          = "cilium"
 
-# Standard Node Pool (for control plane and system workloads)
+# Standard Node Pool
 node_type           = "GP1-M"
 node_count          = 3
 min_nodes           = 2
@@ -23,20 +22,7 @@ max_nodes           = 10
 autoscaling_enabled = true
 autohealing_enabled = true
 
-# GPU Node Pool (ClusterMAX requirement for AI/ML workloads)
-# Available GPU types in fr-par-1:
-#   L4-1-24G    — NVIDIA L4 24GB  (inference, cost-effective)
-#   H100-1-80G  — NVIDIA H100 80GB (training, high-performance)
-gpu_pool_enabled        = true
-gpu_node_type           = "L4-1-24G"
-gpu_node_count          = 1
-gpu_min_nodes           = 0     # Scale to zero when not in use
-gpu_max_nodes           = 5
-gpu_autoscaling_enabled = true
-gpu_autohealing_enabled = true
-gpu_operator_enabled    = false # Scaleway auto-installs the GPU operator
-
-# VCluster Fleet — Per-Tenant Multi-Tenancy (ClusterMAX Platinum requirement)
+# VCluster Fleet — Per-Tenant Multi-Tenancy (ClusterMAX requirement)
 # Add one entry per team/tenant. Each gets an isolated virtual K8s cluster.
 vclusters = {
   "team-ml" = {
@@ -45,8 +31,6 @@ vclusters = {
     storage_size                = "10Gi"
     storage_class               = "scw-bssd"
     isolation_enabled           = true
-    multi_namespace_mode        = false   # Removed in vcluster 0.30+
-    enable_ai_toleration        = true
     resource_quota_cpu          = "20"
     resource_quota_memory       = "40Gi"
     resource_quota_cpu_limit    = "30"
@@ -58,36 +42,12 @@ vclusters = {
     storage_size                = "5Gi"
     storage_class               = "scw-bssd"
     isolation_enabled           = true
-    multi_namespace_mode        = false
-    enable_ai_toleration        = false
     resource_quota_cpu          = "10"
     resource_quota_memory       = "20Gi"
     resource_quota_cpu_limit    = "15"
     resource_quota_memory_limit = "30Gi"
   }
 }
-
-# Monitoring & Observability (ClusterMAX requirement)
-monitoring_enabled      = true
-monitoring_namespace    = "monitoring"
-prometheus_retention    = "30d"
-prometheus_storage_size = "100Gi"
-alertmanager_enabled    = true
-grafana_admin_password  = "CHANGE_ME_SECURE_PASSWORD"  # Use a strong password!
-
-# Advanced Networking
-# Note: Scaleway pre-installs and manages Cilium — avoid overriding it via Helm.
-# Use the Cilium CLI directly to enable Hubble: cilium hubble enable
-advanced_networking_enabled    = false
-hubble_metrics_enabled         = true
-hubble_ui_enabled              = true
-bandwidth_manager_enabled      = true
-policy_enforcement_mode        = "default"
-default_network_policy_enabled = false  # Enable for stricter multi-tenant security
-
-# Security
-host_firewall_enabled     = false  # Enable for production
-bgp_control_plane_enabled = false
 
 # Tags
 tags = [
