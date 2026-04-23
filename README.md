@@ -6,6 +6,7 @@ Terraform configuration for a managed Kubernetes cluster on Scaleway with a flee
 
 - Managed Kubernetes cluster with autoscaling and autohealing
 - VPC private network
+- **Optional GPU node pool** — NVIDIA L4 or H100 nodes, scales to zero when idle
 - **VCluster fleet**: one isolated virtual cluster per tenant, provisioned via Helm (chart 0.30.4)
 - Per-tenant resource quotas and network isolation (blocks cloud metadata service)
 - Environment-specific configuration via `.tfvars` files
@@ -145,6 +146,21 @@ vcluster disconnect
 | `private_network_name` | VPC name (defaults to `{cluster_name}-pn`) | `""` |
 | `tags` | Resource tags | `[]` |
 
+### GPU Node Pool
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `gpu_pool_enabled` | Enable a dedicated GPU node pool | `false` |
+| `gpu_pool_name` | GPU pool name | `gpu-pool` |
+| `gpu_node_type` | GPU instance type (e.g. `L4-1-24G`, `H100-1-80G`) | `L4-1-24G` |
+| `gpu_node_count` | Initial GPU node count | `1` |
+| `gpu_min_nodes` | Minimum GPU nodes (0 = scale to zero) | `0` |
+| `gpu_max_nodes` | Maximum GPU nodes for autoscaling | `2` |
+| `gpu_autoscaling_enabled` | Enable GPU node autoscaling | `true` |
+| `gpu_autohealing_enabled` | Enable GPU node autohealing | `true` |
+
+Scaleway automatically installs the NVIDIA GPU operator on GPU node types — no manual setup required.
+
 ### VCluster fleet
 
 | Variable | Description | Default |
@@ -178,6 +194,9 @@ Each vcluster object supports:
 | `wildcard_dns` | Wildcard DNS for cluster services |
 | `vclusters_deployed` | Map of deployed vclusters with connect commands |
 | `vcluster_fleet_count` | Number of provisioned vclusters |
+| `gpu_pool_id` | GPU pool identifier (null if disabled) |
+| `gpu_pool_status` | GPU pool status (null if disabled) |
+| `gpu_pool_current_size` | Current number of GPU nodes (null if disabled) |
 
 ## Teardown
 
